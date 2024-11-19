@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - Soring
   - Scoring
+  - Correct
+  - Wrong
   layers:
   - Default
   - TransparentFX

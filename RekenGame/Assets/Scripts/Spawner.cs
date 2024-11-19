@@ -2,27 +2,29 @@
 
 public class Spawner : MonoBehaviour
 {
-    public Pipes prefab;
-    public float spawnRate = 1f;
-    public float minHeight = -1f;
-    public float maxHeight = 1f;
-    public float verticalGap = 3f;
+    public GameObject mathProblemPrefab; // Voeg hier de MathProblemWithPipes prefab toe
+    public float spawnInterval = 5f; // Tijd tussen spawns
+    public float spawnXPosition = 10f; // X-positie waar de prefab spawnt
 
-    private void OnEnable()
+    private void Start()
     {
-        InvokeRepeating(nameof(Spawn), spawnRate, spawnRate);
+        InvokeRepeating(nameof(SpawnMathProblem), 2f, spawnInterval); // Spawnt elke 'spawnInterval' seconden
     }
 
-    private void OnDisable()
+    private void SpawnMathProblem()
     {
-        CancelInvoke(nameof(Spawn));
+        // Instantiate een nieuwe prefab
+        GameObject newMathProblem = Instantiate(mathProblemPrefab);
+        newMathProblem.transform.position = new Vector3(spawnXPosition, 0, 0); // Stel de spawn-positie in
     }
+}
 
-    private void Spawn()
+public class PipeMovement : MonoBehaviour
+{
+    public float speed = 5f; // Snelheid waarmee de pipes bewegen
+
+    private void Update()
     {
-        Pipes pipes = Instantiate(prefab, transform.position, Quaternion.identity);
-        pipes.transform.position += Vector3.up * Random.Range(minHeight, maxHeight);
-        pipes.gap = verticalGap;
+        transform.position += Vector3.left * speed * Time.deltaTime; // Beweeg naar links
     }
-
 }
